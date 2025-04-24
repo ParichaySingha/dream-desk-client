@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import TestComponent from "./TestComponent";
-import InfoModal from "./Section/infoModal";
+import InfoModal from "./Section/InfoModal";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 
 // const testOne = [
