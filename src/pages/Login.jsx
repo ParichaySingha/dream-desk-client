@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import {
   Box,
   Button,
@@ -13,42 +14,83 @@ import {
 
 const Login = () => {
   const [mobileNumber, setMobileNumber] = useState("");
+  const [username, setUsername] = useState(""); // State for username
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleSendOTP = async () => {
-    try {
-      // Simulate API call to send OTP
-      console.log("Sending OTP to:", mobileNumber);
-      // Replace this with your actual API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+  // const handleSendOTP = async () => {
+  //   try {
+  //     // Simulate API call to send OTP
+  //     console.log("Sending OTP to:", mobileNumber);
+  //     console.log("Username:", username); // Log the username
+  //     // Replace this with your actual API call
+  //     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      setOtpSent(true);
-      setSnackbarMessage("OTP sent successfully!");
-      setSnackbarOpen(true);
+  //     setOtpSent(true);
+  //     setSnackbarMessage("OTP sent successfully!");
+  //     setSnackbarOpen(true);
+  //   } catch (error) {
+  //     setSnackbarMessage("Failed to send OTP. Please try again.");
+  //     setSnackbarOpen(true);
+  //   }
+  // };
+
+  const handleSendOTP = async () => {
+    const response = await handleAxiosPostSendOtp({
+      phoneNumber: mobileNumber,
+      userName: username,
+    });
+    console.log("Response: otp", response);
+  };
+
+  const handleAxiosPostSendOtp = async ({ phoneNumber, userName }) => {
+    try {
+      const response = await axios.post(
+        "https://otp-verification-production.up.railway.app/router/sendOTP",
+        {
+          phoneNumber: phoneNumber,
+          userName: userName,
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("Response: otp", response);
+        setOtpSent(true);
+        setSnackbarMessage("OTP sent successfully!");
+        setSnackbarOpen(true);
+      }
     } catch (error) {
-      setSnackbarMessage("Failed to send OTP. Please try again.");
-      setSnackbarOpen(true);
+      console.error("Error:", error);
+    }
+  };
+
+  const handleAxiosPost = async ({ oneTimePassword }) => {
+    try {
+      const response = await axios.post(
+        "https://otp-verification-production.up.railway.app/router/validateOTP",
+        {
+          userName: username,
+          oneTimePassword,
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("Response: otp", response);
+        setSnackbarMessage("Login successful!");
+        // setSnackbarOpen(true);
+        navigate("/registration");
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
   const handleVerifyOTP = async () => {
-    try {
-      // Simulate API call to verify OTP
-      console.log("Verifying OTP:", otp);
-      // Replace this with your actual API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      setSnackbarMessage("Login successful!");
-      setSnackbarOpen(true);
-      navigate("/registration"); // Redirect to the dashboard or desired page
-    } catch (error) {
-      setSnackbarMessage("Invalid OTP. Please try again.");
-      setSnackbarOpen(true);
-    }
+    const response = await handleAxiosPost({ oneTimePassword: otp });
+    console.log("Response: otp", response);
   };
 
   const handleCloseSnackbar = () => {
@@ -84,7 +126,7 @@ const Login = () => {
           Welcome to
         </Typography>
         <Typography variant="h4" fontWeight={800} color="success.main">
-          Dream Dask
+          Dream Desk
         </Typography>
         <Typography variant="body1" color="textSecondary" gutterBottom>
           An Education that Earns
@@ -99,7 +141,16 @@ const Login = () => {
             <TextField
               fullWidth
               variant="outlined"
-              placeholder="Enter Mobile Number"
+              placeholder="Enter Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              sx={{ mb: 2 }} // Add margin below the username field
+            />
+
+            <TextField
+              fullWidth
+              variant="outlined"
+              placeholder="Enter Mobile Number with +91"
               value={mobileNumber}
               onChange={(e) => setMobileNumber(e.target.value)}
               InputProps={{
