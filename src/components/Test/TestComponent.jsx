@@ -60,7 +60,7 @@ const TestComponent = ({ testData, totalTests, currentTestIndex, setCurrentTestI
         setCurrentTestIndex((prev) => prev + 1);
       } else {
         onSubmit();
-        navigate("/allTestCompleted");
+        navigate("/completionScreen");
       }
     }
   };
