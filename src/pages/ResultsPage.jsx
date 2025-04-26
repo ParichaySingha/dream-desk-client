@@ -11,6 +11,8 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  CircularProgress,
+  Button,
 } from "@mui/material";
 
 const ResultsPage = () => {
@@ -21,8 +23,18 @@ const ResultsPage = () => {
   useEffect(() => {
     const fetchTestResults = async () => {
       try {
-        const response = await axios.get("/api/test-results");
-        setTestResults(response.data);
+        const response = await axios.get(
+          "https://onlinequizfinal-production.up.railway.app/submit"
+        );
+
+        // Transform the response data if needed
+        const formattedResults = response.data.map((item) => ({
+          testName: item.testName || "Unknown Test", // Default value if testName is missing
+          score: item.score || 0, // Default value if score is missing
+          total: item.total || 100, // Default value if total is missing
+        }));
+
+        setTestResults(formattedResults);
       } catch (error) {
         console.error("Error fetching results:", error);
         setError("Failed to fetch test results.");
@@ -34,9 +46,14 @@ const ResultsPage = () => {
     fetchTestResults();
   }, []);
 
-  if (loading) return <Typography>Loading...</Typography>;
-  if (error) return <Typography>{error}</Typography>;
-
+  if (loading) return <CircularProgress />;
+  if (error)
+    return (
+      <Box>
+        <Typography>{error}</Typography>
+        <Button onClick={() => window.location.reload()}>Retry</Button>
+      </Box>
+    );
   // const ResultsPage = () => {
   //   // Mock data for test results
   //   const testResults = [
