@@ -23,7 +23,7 @@ const ResultsPage = () => {
   useEffect(() => {
     const fetchTestResults = async () => {
       try {
-        const response = await axios.get(
+        const response = await axios.post(
           "https://onlinequizfinal-production.up.railway.app/submit"
         );
 
