@@ -33,7 +33,6 @@ const CompletionScreen = () => {
           padding: 4,
           borderRadius: 4,
           maxWidth: 800,
-          width: "40vw",
           minHeight: "75vh",
           textAlign: "center",
           background: "#fff",
