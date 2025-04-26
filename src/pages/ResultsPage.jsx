@@ -27,17 +27,21 @@ const ResultsPage = () => {
           "https://onlinequizfinal-production.up.railway.app/submit"
         );
 
-        // Transform the response data if needed
-        const formattedResults = response.data.map((item) => ({
-          testName: item.testName || "Unknown Test", // Default value if testName is missing
-          score: item.score || 0, // Default value if score is missing
-          total: item.total || 100, // Default value if total is missing
-        }));
+        // Ensure the response data is an array before mapping
+        const formattedResults = Array.isArray(response.data)
+          ? response.data.map((item) => ({
+              testName: item.testName || "Unknown Test", // Default value if testName is missing
+              score: item.score || 0, // Default value if score is missing
+              total: item.total || 100, // Default value if total is missing
+            }))
+          : [];
 
         setTestResults(formattedResults);
       } catch (error) {
         console.error("Error fetching results:", error);
-        setError("Failed to fetch test results.");
+        setError(
+          error.response?.data?.message || "Failed to fetch test results."
+        );
       } finally {
         setLoading(false);
       }
