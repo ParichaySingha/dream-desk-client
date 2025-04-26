@@ -6,7 +6,7 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import Divider from "@mui/material/Divider";
+// import Divider from "@mui/material/Divider";
 // import Divider from "@mui/material/Divider";
 import LinearProgress from "@mui/material/LinearProgress";
 import { useTheme, useMediaQuery, Checkbox } from "@mui/material";
@@ -205,14 +205,29 @@ const personalQuestions = [
     options: ["General", "OBC", "SC", "ST"],
     required: true,
   },
-  { id: "permanentAddress", label: "Permanent Address", type: "text", required: true },
-  { id: "addressLine2", label: "Address line 2 (Optional)", type: "text", required: false },
+  {
+    id: "permanentAddress",
+    label: "Permanent Address",
+    type: "text",
+    required: true,
+  },
+  {
+    id: "addressLine2",
+    label: "Address line 2 (Optional)",
+    type: "text",
+    required: false,
+  },
   { id: "pincode", label: "Pincode", type: "tel", required: true },
   { id: "city", label: "Town/City", type: "text", required: true },
   { id: "state", label: "State", type: "text", required: true },
   { id: "fatherName", label: "Father's name", type: "text", required: true },
   { id: "motherName", label: "Mother's name", type: "text", required: true },
-  { id: "guardianPhoneNumber", label: "Guardian's phone number", type: "tel", required: true },
+  {
+    id: "guardianPhoneNumber",
+    label: "Guardian's phone number",
+    type: "tel",
+    required: true,
+  },
   {
     id: "guardianEducation",
     label: "Guardian's highest educational qualification",
@@ -285,7 +300,8 @@ const personalQuestions = [
   },
   {
     id: "distanceFromCenter",
-    label: "Please mention the distance of your home from the emversity center (Kms).",
+    label:
+      "Please mention the distance of your home from the emversity center (Kms).",
     type: "radio",
     options: ["5", "10", "20", "40"],
     required: true,
@@ -381,8 +397,18 @@ const educationQuestions = [
     options: ["12th", "Bachelors", "Diploma", "Advance Diploma", "Other"],
     required: true,
   },
-  { id: "yearOfPassing", label: "Year of passing 12th", type: "text", required: true },
-  { id: "percentage12th", label: "Percentage in 12th", type: "text", required: true },
+  {
+    id: "yearOfPassing",
+    label: "Year of passing 12th",
+    type: "text",
+    required: true,
+  },
+  {
+    id: "percentage12th",
+    label: "Percentage in 12th",
+    type: "text",
+    required: true,
+  },
   {
     id: "board12th",
     label: "Which board did you complete your 12th from?",
@@ -405,9 +431,24 @@ const educationQuestions = [
     required: true,
   },
   { id: "schoolName", label: "School Name", type: "text", required: true },
-  { id: "schoolAddress", label: "School Address", type: "text", required: true },
-  { id: "schoolPincode", label: "School Pincode", type: "text", required: true },
-  { id: "schoolFees", label: "School Fees Per Month", type: "text", required: true },
+  {
+    id: "schoolAddress",
+    label: "School Address",
+    type: "text",
+    required: true,
+  },
+  {
+    id: "schoolPincode",
+    label: "School Pincode",
+    type: "text",
+    required: true,
+  },
+  {
+    id: "schoolFees",
+    label: "School Fees Per Month",
+    type: "text",
+    required: true,
+  },
   {
     id: "schoolType",
     label: "School Type",
@@ -714,13 +755,13 @@ export default function StepperRegistration() {
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-     
-      const reqData = Object.entries(formData)?.reduce((acc, [key, value]) => {
+    const reqData =
+      Object.entries(formData)?.reduce((acc, [key, value]) => {
         if (key === "Confirm1" || key === "Confirm2") return acc;
-    
+
         if (value === "Yes") {
           acc[key] = true;
         } else if (value === "No") {
@@ -728,39 +769,37 @@ export default function StepperRegistration() {
         } else {
           acc[key] = value;
         }
-    
+
         return acc;
       }, {}) || {};
-     
-      try {
-        showLoader(); // Show loader
-        const res = await fetch(
-          "https://onlinequizfinal-production.up.railway.app/addStudentDetails",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(reqData),
-          }  
-        );
 
-        //hideLoader(); // Hide loader
-        if (!res.ok) throw new Error("Failed to submit");
-  
-        const result = await res.json();
+    try {
+      showLoader(); // Show loader
+      const res = await fetch(
+        "https://onlinequizfinal-production.up.railway.app/addStudentDetails",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(reqData),
+        }
+      );
 
-        localStorage.setItem("studentDetails", JSON.stringify(result));
-        navigate("/testAll");
-        console.log("Success:", result);
-        showSnackbar("Student details submitted successfully!", "success");
-      } catch (err) {
-        console.error(err);
-        showSnackbar("Error submitting the form.",  "error");
-      } finally {
-        hideLoader(); // Always hide loader, success or failure
-      }
-    };
-   
+      //hideLoader(); // Hide loader
+      if (!res.ok) throw new Error("Failed to submit");
 
+      const result = await res.json();
+
+      localStorage.setItem("studentDetails", JSON.stringify(result));
+      navigate("/testAll");
+      console.log("Success:", result);
+      showSnackbar("Student details submitted successfully!", "success");
+    } catch (err) {
+      console.error(err);
+      showSnackbar("Error submitting the form.", "error");
+    } finally {
+      hideLoader(); // Always hide loader, success or failure
+    }
+  };
 
   //   if (!question) return null;
 
@@ -829,7 +868,7 @@ export default function StepperRegistration() {
           ))}
         </Stepper>
       </Box>
-       
+
       {/* Form section */}
       <Box
         sx={{
