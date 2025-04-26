@@ -13,44 +13,41 @@ import {
   TableRow,
 } from "@mui/material";
 
+// const ResultsPage = () => {
+//   const [testResults, setTestResults] = useState([]);
+//   const [loading, setLoading] = useState(true); // State for loading
+//   const [error, setError] = useState(null); // State for error
+
+//   useEffect(() => {
+//     const fetchTestResults = async () => {
+//       try {
+//         const response = await axios.get("/api/test-results");
+//         setTestResults(response.data);
+//       } catch (error) {
+//         console.error("Error fetching results:", error);
+//         setError("Failed to fetch test results.");
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchTestResults();
+//   }, []);
+
+//   if (loading) return <Typography>Loading...</Typography>;
+//   if (error) return <Typography>{error}</Typography>;
+
 const ResultsPage = () => {
-  const [testResults, setTestResults] = useState([]);
-  const [loading, setLoading] = useState(true); // State for loading
-  const [error, setError] = useState(null); // State for error
-
-  useEffect(() => {
-    const fetchTestResults = async () => {
-      try {
-        const response = await axios.get("/api/test-results");
-        setTestResults(response.data);
-      } catch (error) {
-        console.error("Error fetching results:", error);
-        setError("Failed to fetch test results.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTestResults();
-  }, []);
-
-  if (loading) return <Typography>Loading...</Typography>;
-  if (error) return <Typography>{error}</Typography>;
-
-  // const ResultsPage = () => {
-  //   // Mock data for test results
-  //   const testResults = [
-  //     { testName: "Test 1", score: 85, total: 100 },
-  //     { testName: "Test 2", score: 90, total: 100 },
-  //     { testName: "Test 3", score: 75, total: 100 },
-  //     { testName: "Test 3", score: 75, total: 100 },
-  //     { testName: "Test 3", score: 75, total: 100 },
-  //     { testName: "Test 3", score: 75, total: 100 },
-  //     { testName: "Test 3", score: 75, total: 100 },
-  //     { testName: "Test 3", score: 75, total: 100 },
-  //     { testName: "Test 3", score: 75, total: 100 },
-  //     { testName: "Test 3", score: 75, total: 100 },
-  //   ];
+  // Mock data for test results
+  const testResults = [
+    { testName: "Test 1", score: 85, total: 100 },
+    { testName: "Test 2", score: 90, total: 100 },
+    { testName: "Test 3", score: 75, total: 100 },
+    { testName: "Test 3", score: 75, total: 100 },
+    { testName: "Test 3", score: 75, total: 100 },
+    { testName: "Test 3", score: 75, total: 100 },
+    { testName: "Test 3", score: 75, total: 100 },
+  ];
 
   return (
     <Box

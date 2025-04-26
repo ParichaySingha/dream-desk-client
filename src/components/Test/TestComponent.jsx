@@ -19,7 +19,15 @@ import Timer from "./Section/Timer";
 import QuestionMainSection from "./Section/QuestionMainSection";
 import QuestionsMatrixSection from "./Section/QuestionsMatrixSection";
 
-const TestComponent = ({ testData, totalTests, currentTestIndex, setCurrentTestIndex, answers, setAnswers, onSubmit }) => {
+const TestComponent = ({
+  testData,
+  totalTests,
+  currentTestIndex,
+  setCurrentTestIndex,
+  answers,
+  setAnswers,
+  onSubmit,
+}) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -27,7 +35,6 @@ const TestComponent = ({ testData, totalTests, currentTestIndex, setCurrentTestI
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [remainingTime, setRemainingTime] = useState(null);
-
 
   // Handle missing testData
   useEffect(() => {
@@ -60,7 +67,7 @@ const TestComponent = ({ testData, totalTests, currentTestIndex, setCurrentTestI
         setCurrentTestIndex((prev) => prev + 1);
       } else {
         onSubmit();
-        navigate("/allTestCompleted");
+        navigate("/completionScreen");
       }
     }
   };
@@ -74,12 +81,15 @@ const TestComponent = ({ testData, totalTests, currentTestIndex, setCurrentTestI
   const handleAnswerChange = (questionId, optionId) => {
     setAnswers((prev) => ({
       ...prev,
-      [questionId]: optionId ,
+      [questionId]: optionId,
     }));
   };
 
   const handleNextQuestion = () => {
-    if (currentQuestionIndex < (testData?.[currentSectionIndex]?.questions?.length || 0) - 1) {
+    if (
+      currentQuestionIndex <
+      (testData?.[currentSectionIndex]?.questions?.length || 0) - 1
+    ) {
       setCurrentQuestionIndex((prev) => prev + 1);
     }
   };
@@ -149,11 +159,18 @@ const TestComponent = ({ testData, totalTests, currentTestIndex, setCurrentTestI
               gap: 2,
             }}
           >
-            {[{ label: "Start", index: 0 }, { label: "Current", index: currentSectionIndex }, { label: "Next", index: currentSectionIndex + 1 }, { label: "End", index: testData.length - 1 }]
-              .filter((step, i, arr) =>
-                step.index >= 0 &&
-                step.index < testData.length &&
-                arr.findIndex((s) => s.index === step.index) === i)
+            {[
+              { label: "Start", index: 0 },
+              { label: "Current", index: currentSectionIndex },
+              { label: "Next", index: currentSectionIndex + 1 },
+              { label: "End", index: testData.length - 1 },
+            ]
+              .filter(
+                (step, i, arr) =>
+                  step.index >= 0 &&
+                  step.index < testData.length &&
+                  arr.findIndex((s) => s.index === step.index) === i
+              )
               .map((step) => {
                 const isCurrent = step.index === currentSectionIndex;
                 return (
@@ -213,8 +230,7 @@ const TestComponent = ({ testData, totalTests, currentTestIndex, setCurrentTestI
       <LinearProgress
         variant="determinate"
         value={
-          (currentQuestionIndex /
-            (currentSection?.questions?.length || 1)) *
+          (currentQuestionIndex / (currentSection?.questions?.length || 1)) *
           100
         }
         sx={{ my: 2 }}
@@ -243,7 +259,9 @@ const TestComponent = ({ testData, totalTests, currentTestIndex, setCurrentTestI
             answers={answers}
             currentQuestion={currentQuestion}
             handleAnswerChange={handleAnswerChange}
-            totalQuestionInCurrentSection={currentSection?.questions?.length || 0}
+            totalQuestionInCurrentSection={
+              currentSection?.questions?.length || 0
+            }
           />
         </Grid>
 
