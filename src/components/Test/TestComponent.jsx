@@ -57,6 +57,7 @@ const TestComponent = ({
   }, [remainingTime]);
 
   const moveToNextSection = () => {
+    console.log("Moving to next section...", answers);
     if (currentSectionIndex < testData.length - 1) {
       const nextIndex = currentSectionIndex + 1;
       setCurrentSectionIndex(nextIndex);

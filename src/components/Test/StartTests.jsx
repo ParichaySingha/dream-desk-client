@@ -68,62 +68,70 @@ const testSteps = [
   },
 ];
 
-const SatrtTests = ({setAllTests}) => {
+const SatrtTests = ({ setAllTests }) => {
   const { showLoader, hideLoader, showSnackbar } = useUI();
   const navigate = useNavigate();
- 
+
   const handleStartTest = (id) => {
     console.log(`Start Test ${id}`);
     // Hook your navigation logic here
   };
-    const fetchQuestions = async () => {
-      try {
-        showLoader();
-        const res = await fetch("https://onlinequizfinal-production.up.railway.app/getQuestions");
-        if (!res.ok) throw new Error("Failed to fetch questions");
-        
-        const data = await res.json();
-        showSnackbar("Questions fetched successfully, Starting the test!", "success");
-        navigate("/test");
-        let convertedTests = data?.map((test) => {
+  const fetchQuestions = async () => {
+    try {
+      showLoader();
+      const res = await fetch(
+        "https://dreamdesk-server-production.up.railway.app/getQuestions"
+      );
+      if (!res.ok) throw new Error("Failed to fetch questions");
+
+      const data = await res.json();
+      showSnackbar(
+        "Questions fetched successfully, Starting the test!",
+        "success"
+      );
+      navigate("/test");
+      let convertedTests =
+        data?.map((test) => {
           return {
-          ...test,
-          sections: test.sections.map((section) => {
-            return {
-              timeLimit: parseInt(section?.timeValue),
-              title: section?.title,
-              sectionDetails: `${section?.questions.length} Questions, Duration: ${parseInt(section?.timeValue)/60} min`,
-              questions: section?.questions.map((question) => {
+            ...test,
+            sections:
+              test.sections.map((section) => {
                 return {
-                  id: question?.id,
-                  
-                  label: question?.question,
-                  options: question?.options.map((option) => {
-                    return {
-                      id: option?.id,
-                      label: option?.option,
-                    };
-                  }) || [],
-                  
+                  timeLimit: parseInt(section?.timeValue),
+                  title: section?.title,
+                  sectionDetails: `${
+                    section?.questions.length
+                  } Questions, Duration: ${
+                    parseInt(section?.timeValue) / 60
+                  } min`,
+                  questions:
+                    section?.questions.map((question) => {
+                      return {
+                        id: question?.id,
+
+                        label: question?.question,
+                        options:
+                          question?.options.map((option) => {
+                            return {
+                              id: option?.id,
+                              label: option?.option,
+                            };
+                          }) || [],
+                      };
+                    }) || [],
                 };
               }) || [],
-            }
-          }) || []
-          }
-        }) || []
-        setAllTests(convertedTests);
-        console.log("Questions:", data);
-        console.log("Converted Questions for UI:", convertedTests);
-      } catch (error) {
-        console.error("Error fetching questions:", error);
-      } finally{
-        hideLoader();
-        
-      }
-    };
-
-    
-  
+          };
+        }) || [];
+      setAllTests(convertedTests);
+      console.log("Questions:", data);
+      console.log("Converted Questions for UI:", convertedTests);
+    } catch (error) {
+      console.error("Error fetching questions:", error);
+    } finally {
+      hideLoader();
+    }
+  };
 
   return (
     <Box sx={{ px: 4, py: 6, minHeight: "100vh" }}>
@@ -141,7 +149,6 @@ const SatrtTests = ({setAllTests}) => {
           sx={{ mb: 5, fontWeight: "bold" }}
           onClick={() => {
             fetchQuestions();
-          
           }}
         >
           <PlayArrowIcon sx={{ mr: 1 }} /> Start

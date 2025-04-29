@@ -776,7 +776,7 @@ export default function StepperRegistration() {
     try {
       showLoader(); // Show loader
       const res = await fetch(
-        "https://onlinequizfinal-production.up.railway.app/addStudentDetails",
+        "https://dreamdesk-server-production.up.railway.app/addStudentDetails",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
